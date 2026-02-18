@@ -4,36 +4,42 @@ body {
     margin: 0; 
     padding: 0;
     background-color: #02016D;/**/
+    /*font-family: ;*/
 }
 
 nav {
     display: flex; 
     align-items: center; 
-    height: 90px; 
-    width: 50%; 
+    height: 120px; 
+    width: 100%; 
     box-sizing: border-box; 
     background-color: #232323;
     padding-left: 0%;
   }
 .nav{
   display: flex;
-  flex-direction: column; /* coloca um embaixo do outro */
+  flex-direction: column;
   align-items: center;
   padding-left: 10%;
-}
-.nav p
-{
-  margin: 4px;
+  padding-right: 5%;
 }
 
-.time {
-    font-size: 32px; /* aumenta aqui */
+.nav p
+{
+  margin: 0px;
+  margin-bottom: 8px;
+  font-size: 23px;
+}
+
+.status {
+    font-size: 26px; 
     font-weight: 600;
 }
 
-.Connected
+.TeamNumber img
 {
-  padding-left: 5%;
+  margin-left: 5%;
+  width: 50%;
 }
 
   p {
@@ -43,18 +49,18 @@ nav {
   .logo {
     display: flex;             
     align-items: center; 
-    gap: 10px; 
-    
   }
   
   .logo img {
-    height: 90px;
+    height: 100px;
+    padding-left: 20px;
   }
 
 
   .field img 
   {
-    width: 99.9%;
+    padding-top: 1.5%;
+    width: 80%;
   }
 
   
