@@ -3,32 +3,58 @@
 body { 
     margin: 0; 
     padding: 0;
-    background-color: #02016D;
+    background-color: #02016D;/**/
 }
 
 nav {
     display: flex; 
     align-items: center; 
-    justify-content: flex-start; 
     height: 90px; 
     width: 50%; 
     box-sizing: border-box; 
     background-color: #232323;
+    padding-left: 0%;
+  }
+.nav{
+  display: flex;
+  flex-direction: column; /* coloca um embaixo do outro */
+  align-items: center;
+  padding-left: 10%;
+}
+.nav p
+{
+  margin: 4px;
+}
+
+.time {
+    font-size: 32px; /* aumenta aqui */
+    font-weight: 600;
+}
+
+.Connected
+{
+  padding-left: 5%;
+}
+
+  p {
+  color: white;
   }
   
   .logo {
     display: flex;             
     align-items: center; 
     gap: 10px; 
+    
   }
   
   .logo img {
     height: 90px;
   }
 
+
   .field img 
   {
-    height: 200p;
+    width: 99.9%;
   }
 
   
