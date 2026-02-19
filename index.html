@@ -76,13 +76,33 @@
 
     <script>
         $(document).ready(function () {
-            // sets a function that will be called when the websocket connects/disconnects
+            // NetworkTables listeners
             NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
-
-            // sets a function that will be called when the robot connects/disconnects
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
+            // Listener da chave "Match time", recebe valor inicial
+            NetworkTables.addKeyListener("Match time", function (key, value, isNew) {
+                let matchTime = value;
+
+                console.log(matchTime);
+
+                // Se o valor for -1, considera 0
+                if (matchTime == -1) matchTime = 0;
+
+                // Calcula minutos e segundos
+                let minutes = Math.trunc(matchTime / 60);
+                let seconds = Math.trunc(matchTime % 60);
+
+                // Décimos de segundo
+                let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
+
+                // Atualiza os elementos do HTML
+                document.getElementById("m").textContent = String(minutes).padStart(2, '0');
+                document.getElementById("s").textContent = String(seconds).padStart(2, '0');
+                document.getElementById("dm").textContent = dsec;
+            }, true); // importante: true para receber valor inicial
         });
+
 
 
         function onRobotConnection(connected) {
@@ -107,30 +127,6 @@
             }
         }
 
-        setInterval(function () {
-            let matchTime = NetworkTables.getValue("Match time", 0.0);
-
-            if (matchTime == -1) {
-                matchTime = 0.0;
-            }
-
-            let minutes = Math.trunc(matchTime / 60);
-
-            let seconds = Math.trunc(matchTime % 60);
-
-            let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
-
-            const minElem = document.getElementById("m");
-            const dsElem = document.getElementById("dm"); // se quiser décimos
-            const sElem = document.getElementById("s");
-
-            minElem.textContent = minutes;
-            sElem.textContent = seconds;
-            dsElem.textContent = dsec;
-
-        }, 50);
-        a
-        
     </script>
 
 
