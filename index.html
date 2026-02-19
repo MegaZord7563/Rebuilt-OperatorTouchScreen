@@ -14,14 +14,22 @@
 
 <body>
 
+    <!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+    <script src="/networktables/networktables.js"></script>
+
+    <!-- Obviously, you will want to copy this file locally in a real 
+         dashboard, as the Driver Station won't have internet access -->
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+
     <div class="nav">
         <img src="assets/mega.png" alt="">
 
         <div class="connected">
             <h2 class="connected-tiulo"> CONNECTED:</h2>
 
-            <div class="status">
-                <div class="status-opcoes off"></div>
+            <div class="status" id="toggleStatus">
+                <div class="status-opcoes off">OFF</div>
                 <div class="status-opcoes on">ON</div>
             </div>
         </div>
@@ -66,12 +74,29 @@
     </div>
 
 
-    <script type="text/javascript">
-        "use strict";
+    <script>
+        const toggle = document.getElementById("toggleStatus");
 
+        toggle.addEventListener("click", function () {
+            toggle.classList.toggle("off");
+        });
 
+        $(document).ready(function () {
 
+                // sets a function that will be called when the websocket connects/disconnects
+                NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+
+                // sets a function that will be called when the robot connects/disconnects
+                NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+
+                // sets a function that will be called when any NetworkTables key/value changes
+                NetworkTables.addGlobalListener(function (key, value, isNew) { }, true);
+
+            
+            });
     </script>
+
+
 </body>
 
 </html>
