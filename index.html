@@ -44,11 +44,11 @@
                 <img src="assets/Clock.png" alt="">
             </div>
 
-            <p class="numero-tempo"> 0 </p>
-            <p class="numero-tempo"> 2 </p>
+            <p id="dm" class="numero-tempo"> 0 </p>
+            <p id="m" class="numero-tempo"> 2 </p>
             <p class="numero-tempo"> - </p>
-            <p class="numero-tempo"> 2 </p>
-            <p class="numero-tempo"> 0 </p>
+            <p id="ds" class="numero-tempo"> 2 </p>
+            <p id="s" class="numero-tempo"> 0 </p>
         </div>
 
         <div class="field">
@@ -75,21 +75,65 @@
 
 
     <script>
-        const toggle = document.getElementById("toggleStatus");
+        $(document).ready(function () {
+            // sets a function that will be called when the websocket connects/disconnects
+            NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
 
-        toggle.addEventListener("click", function () {
-            toggle.classList.toggle("off");
+            // sets a function that will be called when the robot connects/disconnects
+            NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+
         });
 
-        $(document).ready(function () {
 
-                // sets a function that will be called when the websocket connects/disconnects
-                NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+        function onRobotConnection(connected) {
+            const toggle = document.getElementById("toggleStatus");
 
-                // sets a function that will be called when the robot connects/disconnects
-                NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+            // Change toggle switch state
+            if (!connected) {
+                toggle.classList.add("off");
+            } else {
+                toggle.classList.remove("off");
+            }
 
-            });
+        }
+
+        function onNetworkTablesConnection(connected) {
+            if (!connected) {
+                console.log("NTs not connected")
+                alert("NTs not connected")
+            }
+            else {
+                console.log("NTs connected")
+            }
+        }
+
+        setInterval(function () {
+            let matchTime = NetworkTables.getValue("Match time", 0.0);
+
+            if (matchTime == -1) {
+                matchTime = 0.0;
+            }
+
+            let minutes = Math.trunc(matchTime / 60);
+
+            let seconds = Math.trunc(matchTime % 60);
+
+            let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
+
+            const minElem = document.getElementById("m");
+            const dsElem = document.getElementById("dm"); // se quiser décimos
+            const sElem = document.getElementById("s");
+
+            minElem.textContent = minutes;
+            sElem.textContent = seconds;
+            dsElem.textContent = dsec;
+
+        }, 50);
+        a
+
+
+
+
     </script>
 
 

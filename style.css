@@ -12,12 +12,7 @@ html, body {
   }
 
   body {
-    background: linear-gradient(
-        to bottom,
-        #0100BC 0%,
-        #0201FD 50%,
-        #0100BC 100%
-    );   
+    background: #01008C;   
 }
 
 .nav {
@@ -28,7 +23,7 @@ html, body {
     padding: 10px;
     margin: 22px 85px 0px 95px;
     border-radius: 25px;
-    border: solid 2px #8A8A8A;
+    border: solid 3px #d7d3d3;
     height: 18%;
 }
 
@@ -107,13 +102,10 @@ html, body {
     color: white;
 }
 
-
-
 h2
 {
   color: white;
 }
-
 
 .conteudo {
     display: flex;
@@ -133,7 +125,7 @@ h2
     align-items: center;
     gap: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: solid 2px #8A8A8A;
+    border: solid 3px #e7e4e4;
 }
 
 .card-tempo p
@@ -158,8 +150,6 @@ h2
     align-items: center;
     margin-top: 0px;
     margin-top: -30px;
-
-
 }
 
 .field {
@@ -190,6 +180,7 @@ h2
 .field button:hover
 {
     transform: scale(1.2);
+    background: rgba(70, 86, 236, 0.2); 
 }
 
 .a{top: 5%; right: 3%;}
@@ -207,4 +198,4 @@ h2
 .m{top: 22%; right: 86%;}
 .n{top: 27%; right: 68%;}
 .o{top: 45%; right: 78%;}
-.p{top: 86%; right: 90%;}
+.p{top: 85%; right: 90%;}
