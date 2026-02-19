@@ -45,7 +45,7 @@
             </div>
 
             <p id="dm" class="numero-tempo"> 0 </p>
-            <p id="m" class="numero-tempo"> 2 </p>
+            <p id="min" class="numero-tempo"> 2 </p>
             <p class="numero-tempo"> - </p>
             <p id="ds" class="numero-tempo"> 2 </p>
             <p id="s" class="numero-tempo"> 0 </p>
@@ -54,28 +54,34 @@
         <div class="field">
             <img src="assets/fieldblack.png" alt="">
 
-            <button class="a"></button>
-            <button class="b"></button>
-            <button class="c"></button>
-            <button class="d"></button>
-            <button class="e"></button>
-            <button class="f"></button>
-            <button class="g"></button>
-            <button class="h"></button>
-            <button class="i"></button>
-            <button class="j"></button>
-            <button class="k"></button>
-            <button class="l"></button>
-            <button class="m"></button>
-            <button class="n"></button>
-            <button class="o"></button>
-            <button class="p"></button>
+            <button id="a" class="a" onclick="selectPosition('a')"></button>
+            <button id="b" class="b" onclick="selectPosition('b')"></button>
+            <button id="c" class="c" onclick="selectPosition('c')"></button>
+            <button id="d" class="d" onclick="selectPosition('d')"></button>
+            <button id="e" class="e" onclick="selectPosition('e')"></button>
+            <button id="f" class="f" onclick="selectPosition('f')"></button>
+            <button id="g" class="g" onclick="selectPosition('g')"></button>
+            <button id="h" class="h" onclick="selectPosition('h')"></button>
+            <button id="i" class="i" onclick="selectPosition('i')"></button>
+            <button id="j" class="j" onclick="selectPosition('j')"></button>
+            <button id="k" class="k" onclick="selectPosition('k')"></button>
+            <button id="l" class="l" onclick="selectPosition('l')"></button>
+            <button id="m" class="m" onclick="selectPosition('m')"></button>
+            <button id="n" class="n" onclick="selectPosition('n')"></button>
+            <button id="o" class="o" onclick="selectPosition('o')"></button>
+            <button id="p" class="p" onclick="selectPosition('p')"></button>
         </div>
     </div>
 
 
     <script>
-        let previusButton
+        let previusButton = null;
+
+        const toggle = document.getElementById("toggleStatus");
+
+        toggle.addEventListener("click", function () {
+            toggle.classList.toggle("off");
+        });
 
         $(document).ready(function () {
             // NetworkTables listeners
@@ -83,29 +89,8 @@
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
             // Listener da chave "Match time", recebe valor inicial
-            NetworkTables.addKeyListener("Match time", function (key, value, isNew) {
-                let matchTime = value;
-
-                console.log(matchTime);
-
-                // Se o valor for -1, considera 0
-                if (matchTime == -1) matchTime = 0;
-
-                // Calcula minutos e segundos
-                let minutes = Math.trunc(matchTime / 60);
-                let seconds = Math.trunc(matchTime % 60);
-
-                // Décimos de segundo
-                let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
-
-                // Atualiza os elementos do HTML
-                document.getElementById("m").textContent = String(minutes).padStart(2, '0');
-                document.getElementById("s").textContent = String(seconds).padStart(2, '0');
-                document.getElementById("dm").textContent = dsec;
-            }, true); // importante: true para receber valor inicial
+            NetworkTables.addKeyListener("Match time",  {}, true); // importante: true para receber valor inicial
         });
-
-
 
         function onRobotConnection(connected) {
             const toggle = document.getElementById("toggleStatus");
@@ -128,6 +113,49 @@
                 console.log("NTs connected")
             }
         }
+
+        function matchTimeUpdate(value)
+        {
+             let matchTime = value;
+
+                console.log(matchTime);
+
+                // Se o valor for -1, considera 0
+                if (matchTime == -1) matchTime = 0;
+
+                // Calcula minutos e segundos
+                let minutes = Math.trunc(matchTime / 60);
+                let seconds = Math.trunc(matchTime % 60);
+
+                // Décimos de segundo
+                let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
+
+                // Atualiza os elementos do HTML
+                document.getElementById("min").textContent = String(minutes).padStart(2, '0');
+                document.getElementById("s").textContent = String(seconds).padStart(2, '0');
+                document.getElementById("dm").textContent = dsec;
+        }
+
+        const blue = "rgba(70, 86, 236, 0.2)";
+        const gray = "rgba(255, 255, 255, 0.1)";
+        let previousButton = null;
+
+        function selectPosition(selectedPosition) {
+            const button = document.getElementById(selectedPosition);
+
+            button.style.backgroundColor = blue;
+            button.style.transform = "scale(1.2)";
+
+            if (previousButton != null) 
+            {
+                const lastButton = document.getElementById(previousButton);
+                lastButton.style.backgroundColor = gray;
+                lastButton.style.transform = "scale(1.0)";
+            }
+
+            previousButton = selectedPosition;
+        }
+
 
     </script>
 
