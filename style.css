@@ -1,65 +1,133 @@
-/* poppins */ @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=UnifrakturMaguntia&display=swap');
-
-body { 
-    margin: 0; 
+* {
+    margin: 0;
     padding: 0;
-    background-color: #02016D;/**/
-    /*font-family: ;*/
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
-nav {
-    display: flex; 
-    align-items: center; 
-    height: 120px; 
-    width: 100%; 
-    box-sizing: border-box; 
+html, body {
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  body {
+    background: linear-gradient(
+        to bottom,
+        #0100BC 0%,
+        #0201FD 50%,
+        #0100BC 100%
+    );   
+}
+
+.nav {
     background-color: #232323;
-    padding-left: 0%;
-    justify-content: center;
-  }
-
-.nav{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 12%;
-  padding-right: 12%;
-  font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin: 22px 95px 0px 95px;
+    border-radius: 25px;
+    border: solid 2px #8A8A8A;
 }
 
-.nav p
-{
-  margin: 0px;
-  margin-bottom: 8px;
-  font-size: 26px;
+.connected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
-  .nav img
-  {
+
+.connected-titulo {
+    color: #fff;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.status {
+    display: flex;
+    background: #2a2a2a;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    padding: 3px;
+    width: 500px;
     height: 60px;
-  }
+}
 
+.status-opcoes {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50px;
+}
 
-  p {
+.status-opcoes.off {
+    background: transparent;
+}
+
+h2
+{
   color: white;
-  }
-  
-  .logo {
-    display: flex;             
-    align-items: center; 
-  }
-  
-  .logo img {
-    height: 100px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+}
 
+.status-opcoes.on {
+    background: #146008;
+    box-shadow: 0 0 15px rgba(0, 166, 81, 0.5);
+    border: 2px solid #ffffff;
+}
 
-  .field img 
-  {
-    padding-top: 3%;
-    width: 80%;
-    padding-left: 18%;
-  }
+.conteudo {
+    display: flex;
+    gap: 20px;
+    margin: 30px 95px;
+    align-items: stretch;
+    padding-bottom: 22px;
+}
 
-  
+.card-tempo {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 25px;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: solid 2px #8A8A8A;
+}
+
+.card-tempo p
+{
+  font: 600;
+}
+
+.icone-relogio {
+  object-fit: contain;
+}
+
+.numero-tempo {
+    color: #fff;
+    font-size: 50px;
+    font-weight: 900;
+    line-height: 0.95;
+    align-items: center;
+}
+
+.field {
+    flex: 1;
+    position: relative;
+    background-image: url("assets/fieldblack.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.field img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
