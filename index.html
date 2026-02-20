@@ -128,7 +128,7 @@
             let dsecs =    Math.floor(((value - dminutes * 60 * 10) - minutes * 60) / 10);
             let seconds =  Math.floor(((value - dminutes * 60 * 10) - minutes * 60) - dsecs * 10)
 
-            document,getElementById("dm").textContent = dminutes
+            document.getElementById("dm").textContent = dminutes
             document.getElementById("min").textContent = minutes;
             document.getElementById("ds").textContent = dsecs;
             document.getElementById("s").textContent = seconds;
@@ -153,9 +153,8 @@
 
             previousButton = selectedPosition;
 
-            for (let i = 0; i < 3; i++) {
-                NetworkTables.putValue("SelectedPosition", selectedPosition);
-            }
+            NetworkTables.putValue("/SmartDashboard/SelectedPosition", selectedPosition);
+
         }
 
         function onAllianceConnection(key, value, isNew) {
