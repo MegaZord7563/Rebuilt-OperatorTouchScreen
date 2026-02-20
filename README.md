@@ -4,10 +4,8 @@
   
 ---
 
-# 🤖 Rebuilt Operator TouchScreen
-Welcome to Official code repository for the **MegaZord #7563 Operator Touch Screen 2026.** This documentation provides an overview of interface functions, robot communication and roborio implementation.
+# 2026 Operator TouchScreen - Rebuilt Season
+The operator's touchscreen functions as a real-time server on the robot's network for the FRC, created by the MegaZord 7563 team. The touchscreen's main function is to allow the robot to exchange information with the driver with a simple touch, activating and selecting commands through a graphical interface.
 
----
-## 📚 Useful Files
-
-### [**2025 Operator TouchScreen**](https://github.com/MegaZord7563/FRC_2026_Rebuilt/blob/main/README.md)
+## 💻Interface Usage Guide
+<img width="1000" alt="image" src="https://github.com/user-attachments/assets/0252906e-2849-4d6f-a780-80903c4d7a10"/>
