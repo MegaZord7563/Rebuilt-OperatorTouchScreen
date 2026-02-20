@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <link rel="icon" type="image/png" href="assets/favicon 2.png">
 </head>
 
 <body>
@@ -75,21 +77,21 @@
 
 
     <script>
-        let previusButton = null;
+        //const toggle = document.getElementById("toggleStatus");
 
-        const toggle = document.getElementById("toggleStatus");
-
-        toggle.addEventListener("click", function () {
-            toggle.classList.toggle("off");
-        });
+        //toggle.addEventListener("click", function () {
+        //    toggle.classList.toggle("off");
+        //});
 
         $(document).ready(function () {
             // NetworkTables listeners
             NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
-            // Listener da chave "Match time", recebe valor inicial
-            NetworkTables.addKeyListener("Match time",  {}, true); // importante: true para receber valor inicial
+            NetworkTables.addKeyListener("Match time", matchTimeUpdate, true);
+
+            // sets a function that will be called when the NetworkTables instance indicates the robot alliance
+            NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
         });
 
         function onRobotConnection(connected) {
@@ -97,11 +99,14 @@
 
             // Change toggle switch state
             if (!connected) {
-                toggle.classList.add("off");
-            } else {
                 toggle.classList.remove("off");
+                console.log("Robot not connected")
+            } else {
+                toggle.classList.add("off");
+                console.log("Robot connected")
             }
 
+            const field = document.getElementById("fieldImage");
         }
 
         function onNetworkTablesConnection(connected) {
@@ -114,46 +119,64 @@
             }
         }
 
-        function matchTimeUpdate(value)
-        {
-             let matchTime = value;
+        function matchTimeUpdate(key, value, isNew) {
+            let matchTime = value;
 
-                console.log(matchTime);
+            console.log(matchTime);
 
-                // Se o valor for -1, considera 0
-                if (matchTime == -1) matchTime = 0;
+            // Se o valor for -1, considera 0
+            if (matchTime == -1) matchTime = 0;
 
-                // Calcula minutos e segundos
-                let minutes = Math.trunc(matchTime / 60);
-                let seconds = Math.trunc(matchTime % 60);
+            // Calcula minutos e segundos
+            let minutes = Math.trunc(matchTime / 60);
+            let seconds = Math.trunc(matchTime % 60);
 
-                // Décimos de segundo
-                let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
+            // Décimos de segundo
+            let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
 
-                // Atualiza os elementos do HTML
-                document.getElementById("min").textContent = String(minutes).padStart(2, '0');
-                document.getElementById("s").textContent = String(seconds).padStart(2, '0');
-                document.getElementById("dm").textContent = dsec;
+            // Atualiza os elementos do HTML
+            document.getElementById("min").textContent = String(minutes).padStart(2, '0');
+            document.getElementById("s").textContent = String(seconds).padStart(2, '0');
+            document.getElementById("dm").textContent = dsec;
         }
 
         const blue = "rgba(70, 86, 236, 0.2)";
         const gray = "rgba(255, 255, 255, 0.1)";
+
         let previousButton = null;
 
         function selectPosition(selectedPosition) {
             const button = document.getElementById(selectedPosition);
 
             button.style.backgroundColor = blue;
-            button.style.transform = "scale(1.2)";
+            button.style.transform = "scale(1.3)";
 
-            if (previousButton != null) 
-            {
+            if (previousButton != null) {
                 const lastButton = document.getElementById(previousButton);
                 lastButton.style.backgroundColor = gray;
                 lastButton.style.transform = "scale(1.0)";
             }
 
             previousButton = selectedPosition;
+
+            for(let i = 0; i < 3; i++)
+            {
+                NetworkTables.putValue("/SmartDashboard/PositionSelected", selectedPosition);
+            }
+        }
+
+        function onAllianceConnection(key, value, isNew) {
+
+            const field = document.getElementById("fieldImage");
+
+            if(value)
+            {
+                field.style.transform = "rotate(180deg)";   
+            }
+            else
+            {
+                field.style.transform = "rotate(0deg)";  
+            }
         }
 
 
