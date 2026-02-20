@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Interface Rebuilt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="icon" type="image/png" href="assets/favicon 2.png">
+</head>
+
+<body>
+
+    <!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+    <script src="/networktables/networktables.js"></script>
+
+    <!-- Obviously, you will want to copy this file locally in a real 
+         dashboard, as the Driver Station won't have internet access -->
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+
+    <div class="nav">
+        <img src="assets/mega.png" alt="">
+
+        <div class="connected">
+            <h2 class="connected-tiulo"> CONNECTED:</h2>
+
+            <div class="status" id="toggleStatus">
+                <div class="status-opcoes off">OFF</div>
+                <div class="status-opcoes on">ON</div>
+            </div>
+        </div>
+
+        <img src="assets/zord.png" alt="">
+    </div>
+
+
+    <div class="conteudo">
+        <div class="card-tempo">
+            <div class="icone-relogio">
+                <img src="assets/Clock.png" alt="">
+            </div>
+
+            <p id="dm" class="numero-tempo"> 0 </p>
+            <p id="min" class="numero-tempo"> 2 </p>
+            <p class="numero-tempo"> - </p>
+            <p id="ds" class="numero-tempo"> 2 </p>
+            <p id="s" class="numero-tempo"> 0 </p>
+        </div>
+
+        <div class="field">
+            <img src="assets/fieldblack.png" alt="">
+
+            <button id="a" class="a" onclick="selectPosition('a')"></button>
+            <button id="b" class="b" onclick="selectPosition('b')"></button>
+            <button id="c" class="c" onclick="selectPosition('c')"></button>
+            <button id="d" class="d" onclick="selectPosition('d')"></button>
+            <button id="e" class="e" onclick="selectPosition('e')"></button>
+            <button id="f" class="f" onclick="selectPosition('f')"></button>
+            <button id="g" class="g" onclick="selectPosition('g')"></button>
+            <button id="h" class="h" onclick="selectPosition('h')"></button>
+            <button id="i" class="i" onclick="selectPosition('i')"></button>
+            <button id="j" class="j" onclick="selectPosition('j')"></button>
+            <button id="k" class="k" onclick="selectPosition('k')"></button>
+            <button id="l" class="l" onclick="selectPosition('l')"></button>
+            <button id="m" class="m" onclick="selectPosition('m')"></button>
+            <button id="n" class="n" onclick="selectPosition('n')"></button>
+            <button id="o" class="o" onclick="selectPosition('o')"></button>
+            <button id="p" class="p" onclick="selectPosition('p')"></button>
+        </div>
+    </div>
+
+
+    <script>
+        //const toggle = document.getElementById("toggleStatus");
+
+        //toggle.addEventListener("click", function () {
+        //    toggle.classList.toggle("off");
+        //});
+
+        $(document).ready(function () {
+            // NetworkTables listeners
+            NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+            NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+
+            NetworkTables.addKeyListener("/SmartDashboard/Match time", matchTimeUpdate, true);
+
+            // sets a function that will be called when the NetworkTables instance indicates the robot alliance
+            NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
+        });
+
+        function onRobotConnection(connected) {
+            const toggle = document.getElementById("toggleStatus");
+
+            // Change toggle switch state
+            if (!connected) {
+                toggle.classList.remove("off");
+                console.log("Robot not connected")
+            } else {
+                toggle.classList.add("off");
+                console.log("Robot connected")
+            }
+
+            const field = document.getElementById("fieldImage");
+        }
+
+        function onNetworkTablesConnection(connected) {
+            if (!connected) {
+                console.log("NTs not connected")
+                alert("NTs not connected")
+            }
+            else {
+                console.log("NTs connected")
+            }
+        }
+
+        function matchTimeUpdate(key, value, isNew) {
+
+            if (value == -1) value = 0;
+
+            let dminutes =  Math.floor(value / 60 / 10);
+            let minutes =  Math.floor((value - dminutes * 60 * 10) / 60);
+            let dsecs =    Math.floor(((value - dminutes * 60 * 10) - minutes * 60) / 10);
+            let seconds =  Math.floor(((value - dminutes * 60 * 10) - minutes * 60) - dsecs * 10)
+
+            document,getElementById("dm").textContent = dminutes
+            document.getElementById("min").textContent = minutes;
+            document.getElementById("ds").textContent = dsecs;
+            document.getElementById("s").textContent = seconds;
+        }
+
+        const blue = "rgba(70, 86, 236, 0.2)";
+        const gray = "rgba(255, 255, 255, 0.1)";
+
+        let previousButton = null;
+
+        function selectPosition(selectedPosition) {
+            const button = document.getElementById(selectedPosition);
+
+            button.style.backgroundColor = blue;
+            button.style.transform = "scale(1.2)";
+
+            if (previousButton != null) {
+                const lastButton = document.getElementById(previousButton);
+                lastButton.style.backgroundColor = gray;
+                lastButton.style.transform = "scale(1.0)";
+            }
+
+            previousButton = selectedPosition;
+
+            for (let i = 0; i < 3; i++) {
+                NetworkTables.putValue("SelectedPosition", selectedPosition);
+            }
+        }
+
+        function onAllianceConnection(key, value, isNew) {
+
+            const field = document.getElementById("fieldImage");
+
+            if (value) {
+                field.style.transform = "rotate(180deg)";
+            }
+            else {
+                field.style.transform = "rotate(0deg)";
+            }
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
