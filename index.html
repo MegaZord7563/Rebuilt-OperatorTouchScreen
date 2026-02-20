@@ -88,7 +88,7 @@
             NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
-            NetworkTables.addKeyListener("Match time", matchTimeUpdate, true);
+            NetworkTables.addKeyListener("/SmartDashboard/Match time", matchTimeUpdate, true);
 
             // sets a function that will be called when the NetworkTables instance indicates the robot alliance
             NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
@@ -120,24 +120,18 @@
         }
 
         function matchTimeUpdate(key, value, isNew) {
-            let matchTime = value;
 
-            console.log(matchTime);
+            if (value == -1) value = 0;
 
-            // Se o valor for -1, considera 0
-            if (matchTime == -1) matchTime = 0;
+            let dminutes =  Math.floor(value / 60 / 10);
+            let minutes =  Math.floor((value - dminutes * 60 * 10) / 60);
+            let dsecs =    Math.floor(((value - dminutes * 60 * 10) - minutes * 60) / 10);
+            let seconds =  Math.floor(((value - dminutes * 60 * 10) - minutes * 60) - dsecs * 10)
 
-            // Calcula minutos e segundos
-            let minutes = Math.trunc(matchTime / 60);
-            let seconds = Math.trunc(matchTime % 60);
-
-            // Décimos de segundo
-            let dsec = Math.trunc((matchTime - Math.trunc(matchTime)) * 10);
-
-            // Atualiza os elementos do HTML
-            document.getElementById("min").textContent = String(minutes).padStart(2, '0');
-            document.getElementById("s").textContent = String(seconds).padStart(2, '0');
-            document.getElementById("dm").textContent = dsec;
+            document,getElementById("dm").textContent = dminutes
+            document.getElementById("min").textContent = minutes;
+            document.getElementById("ds").textContent = dsecs;
+            document.getElementById("s").textContent = seconds;
         }
 
         const blue = "rgba(70, 86, 236, 0.2)";
@@ -159,9 +153,8 @@
 
             previousButton = selectedPosition;
 
-            for(let i = 0; i < 3; i++)
-            {
-                NetworkTables.putValue("/SmartDashboard/PositionSelected", selectedPosition);
+            for (let i = 0; i < 3; i++) {
+                NetworkTables.putValue("CPositionSelected", selectedPosition);
             }
         }
 
@@ -169,13 +162,11 @@
 
             const field = document.getElementById("fieldImage");
 
-            if(value)
-            {
-                field.style.transform = "rotate(180deg)";   
+            if (value) {
+                field.style.transform = "rotate(180deg)";
             }
-            else
-            {
-                field.style.transform = "rotate(0deg)";  
+            else {
+                field.style.transform = "rotate(0deg)";
             }
         }
 
