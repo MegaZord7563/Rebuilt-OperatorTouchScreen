@@ -86,13 +86,15 @@
         $(document).ready(function () {
             // NetworkTables listeners
             NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
-            NetworkTables.addKeyListener("/SmartDashboard/Match time", matchTimeUpdate, true);
+            //NetworkTables.addKeyListener("/SmartDashboard/Match Time", matchTimeUpdate, true);
 
             // sets a function that will be called when the NetworkTables instance indicates the robot alliance
             NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
         });
+
 
         function onRobotConnection(connected) {
             const toggle = document.getElementById("toggleStatus");
@@ -118,43 +120,52 @@
                 console.log("NTs connected")
             }
         }
-
-        function matchTimeUpdate(key, value, isNew) {
-
-            if (value == -1) value = 0;
-
-            let dminutes =  Math.floor(value / 60 / 10);
-            let minutes =  Math.floor((value - dminutes * 60 * 10) / 60);
-            let dsecs =    Math.floor(((value - dminutes * 60 * 10) - minutes * 60) / 10);
-            let seconds =  Math.floor(((value - dminutes * 60 * 10) - minutes * 60) - dsecs * 10)
-
-            document.getElementById("dm").textContent = dminutes
-            document.getElementById("min").textContent = minutes;
-            document.getElementById("ds").textContent = dsecs;
-            document.getElementById("s").textContent = seconds;
-        }
-
+        /*
+                function matchTimeUpdate(key, value, isNew) {
+        
+                    if (value == -1) value = 0;
+        
+                    let dminutes =  Math.floor(value / 60 / 10);
+                    let minutes =  Math.floor((value - dminutes * 60 * 10) / 60);
+                    let dsecs =    Math.floor(((value - dminutes * 60 * 10) - minutes * 60) / 10);
+                    let seconds =  Math.floor(((value - dminutes * 60 * 10) - minutes * 60) - dsecs * 10)
+        
+                    document.getElementById("dm").textContent = dminutes
+                    document.getElementById("min").textContent = minutes;
+                    document.getElementById("ds").textContent = dsecs;
+                    document.getElementById("s").textContent = seconds;
+                }
+        */
         const blue = "rgba(70, 86, 236, 0.2)";
         const gray = "rgba(255, 255, 255, 0.1)";
 
-        let previousButton = null;
+        let previousButton = "a";
 
         function selectPosition(selectedPosition) {
-            const button = document.getElementById(selectedPosition);
 
-            button.style.backgroundColor = blue;
-            button.style.transform = "scale(1.2)";
-
-            if (previousButton != null) {
+            // Desliga botão anterior
+            if (previousButton !== null) {
                 const lastButton = document.getElementById(previousButton);
                 lastButton.style.backgroundColor = gray;
                 lastButton.style.transform = "scale(1.0)";
+
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPosition" + previousButton,
+                    false
+                );
             }
 
+            // Liga novo botão
+            const button = document.getElementById(selectedPosition);
+            button.style.backgroundColor = blue;
+            button.style.transform = "scale(1.2)";
+
+            NetworkTables.putValue(
+                "/SmartDashboard/selectedPosition" + selectedPosition,
+                true
+            );
+
             previousButton = selectedPosition;
-
-            NetworkTables.putValue("/SmartDashboard/SelectedPosition", selectedPosition);
-
         }
 
         function onAllianceConnection(key, value, isNew) {

@@ -18,6 +18,7 @@ public class TouchScreenInterface {
         SmartDashboard.putString("SelectedPosition", "a");
     }
 
+    
     /**
      * traslate selected position using an enum class
      */
@@ -60,6 +61,14 @@ public class TouchScreenInterface {
      */
     public void updateInputs() {
         String buttonSelected = SmartDashboard.getString("SelectedPosition", "a");
+
+        for (VirtualButton button : VirtualButton.values()) {
+      // Get the value of the button from the SmartDashboard
+      btnValue[button.ordinal()] = SmartDashboard.getBoolean(button.toString()+"Value", btnValue[button.ordinal()]);
+      // Set the value of the button to the value from the SmartDashboard
+      //bEntry[button.ordinal()].get(btnValue[button.ordinal()]);
+      //bEntry[button.ordinal()].set(btnValue[button.ordinal()]);
+    }
 
         try 
         {
