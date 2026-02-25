@@ -90,7 +90,9 @@
 
             NetworkTables.addRobotConnectionListener(onRobotConnection, true);
 
-            //NetworkTables.addKeyListener("/SmartDashboard/Match Time", matchTimeUpdate, true);
+            NetworkTables.addKeyListener("/SmartDashboard/Match Time", matchTimeUpdate, true);
+
+            NetworkTables.addGlobalListener(function(key,value,isNew){}, true);
 
             // sets a function that will be called when the NetworkTables instance indicates the robot alliance
             NetworkTables.addKeyListener('/FMSInfo/IsRedAlliance', onAllianceConnection, true);
@@ -151,7 +153,67 @@
                 lastButton.style.transform = "scale(1.0)";
 
                 NetworkTables.putValue(
-                    "/SmartDashboard/selectedPosition" + previousButton,
+                    "/SmartDashboard/selectedPositiona",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionb",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionc",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositiond",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositione",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionf",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositiong",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionh",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositioni",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionj",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionk",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionl",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionm",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionn",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositiono",
+                    false
+                );
+                NetworkTables.putValue(
+                    "/SmartDashboard/selectedPositionp",
                     false
                 );
             }
@@ -160,6 +222,7 @@
             const button = document.getElementById(selectedPosition);
             button.style.backgroundColor = blue;
             button.style.transform = "scale(1.2)";
+
 
             NetworkTables.putValue(
                 "/SmartDashboard/selectedPosition" + selectedPosition,
