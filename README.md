@@ -5,6 +5,8 @@
 ---
 
 # 2026 Operator TouchScreen - Rebuilt Season
+![Last Commit](https://img.shields.io/github/last-commit/MegaZord7563/Rebuilt-OperatorTouchScreen?color=yellow)
+
 The operator's touchscreen functions as a real-time server on the robot's network for the FRC, created by the MegaZord 7563 team. The touchscreen's main function is to allow the robot to exchange information with the driver with a simple touch, activating and selecting commands through a graphical interface.
 
 ## 💻Interface Usage Guide
